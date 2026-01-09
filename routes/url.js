@@ -4,6 +4,7 @@ const router = express.Router();
 const url = require("../modals/url.modal");
 router.use(express.json());
 router.post("/", async (req, res) => {
+  const allUrls=await url.find({})
   const body = req.body;
   const originalUrl = body.url;
   if (!body) {
@@ -15,10 +16,10 @@ router.post("/", async (req, res) => {
       redirectUrl: originalUrl,
       visithistory: [],
     });
-    const result ="http://localhost:3000/url/" + shortId;
+    const result = "http://localhost:3000/url/" + shortId;
     return res
       .status(201)
-      .json({ message: "Url created successfully", result });
+      .render("home",{"shortenUrl":result,"allUrls":allUrls});
   }
 });
 router.get("/:shorturl", async (req, res) => {
@@ -32,17 +33,16 @@ router.get("/:shorturl", async (req, res) => {
   if (!entry) {
     return res.status(404).send("Short URL not found");
   }
-  const redirectLink = "http://"+entry.redirectUrl;
+  const redirectLink = "http://" + entry.redirectUrl;
   return res.redirect(redirectLink);
 });
 router.get("/analytics/:shorturl", async (req, res) => {
-   const { shorturl } = req.params;
+  const { shorturl } = req.params;
 
-  const entry = await url.findOneAndUpdate(
-    { shorturl });
-    if (!entry) {
-      return res.status(404).send("Short URL not found");
-    }
-    return res.status(200).json({"total clicks":entry.visithistory.length});
-})
+  const entry = await url.findOneAndUpdate({ shorturl });
+  if (!entry) {
+    return res.status(404).send("Short URL not found");
+  }
+  return res.status(200).json({ "total clicks": entry.visithistory.length });
+});
 module.exports = router;

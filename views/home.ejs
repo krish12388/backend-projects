@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Url Shortner</title>
+  </head>
+  <body>
+    <h1>Url Shortner</h1>
+    <% if(locals.shortenUrl){%>
+    <p>Shorten URL: <a href="<%=locals.shortenUrl%>"><%=locals.shortenUrl%></a></p>
+    <%}%>
+    <form  method="post" action="/url/">
+      <label for="url">Enter your url</label>
+      <input type="text" name="url" id="url" />
+      <button type="submit">Shorten</button>
+    </form>
+    <div>
+      <% if(allUrls.length>0){ %>
+       
+      <table>
+        <thead>
+          <th>S no.</th>
+          <th>shortned url</th>
+          <th>original url</th>
+          <th>clicks</th>
+        </thead>
+        <tbody>
+         <% allUrls.map((element,index) => { %>
+          <tr>
+            <td><%=index+1%></td>
+            <td><%=element.shorturl%></td>
+            <td><%=element.redirectUrl%></td>
+            <td><%=element.visithistory.length%></td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+       <% }else{%>
+       <p>No urls found</p>
+       <% } %> 
+    </div>
+  </body>
+</html>
