@@ -15,6 +15,18 @@ app.use("/",staticRouter)
 app.get("/test", async (req,res)=>{
   const allUrls=await urlModal.find({})
   res.render("home",{allUrls})
+
+})
+//server side rendering =>{ejs,pug,handlebars}
+
+app.listen(3000,()=>console.log("Server is running on port http://localhost:3000"))
+
+
+
+
+
+//// buffer code
+
     // res.end(`<html>
     //   <head>
     //     <title>Test</title>
@@ -28,7 +40,3 @@ app.get("/test", async (req,res)=>{
     //     </ul>
     //   </body>
     // </html>`)
-})
-//server side rendering =>{ejs,pug,handlebars}
-
-app.listen(3000,()=>console.log("Server is running on port http://localhost:3000"))
